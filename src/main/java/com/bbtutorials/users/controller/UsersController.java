@@ -33,7 +33,7 @@ public class UsersController {
 	
 	@PostMapping(path = UserLinks.ADD_USER)
 	public ResponseEntity<?> saveUser(@RequestBody Users user) {
-        log.info("UsersController:  list users");
+        log.info("UsersController:  save user");
         Users resource = usersService.saveUser(user);
         return ResponseEntity.ok(resource);
     }

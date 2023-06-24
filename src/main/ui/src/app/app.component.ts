@@ -7,18 +7,17 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnDestroy {
-
   constructor(private appService: AppService) {}
 
   title = 'angular-nodejs-example';
 
   userForm = new FormGroup({
-    firstName: new FormControl('', Validators.nullValidator && Validators.required),
-    lastName: new FormControl('', Validators.nullValidator && Validators.required),
-    email: new FormControl('', Validators.nullValidator && Validators.required)
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
   });
 
   users: any[] = [];
@@ -27,19 +26,25 @@ export class AppComponent implements OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   onSubmit() {
-    this.appService.addUser(this.userForm.value, this.userCount + 1).pipe(takeUntil(this.destroy$)).subscribe(data => {
-      console.log('message::::', data);
-      this.userCount = this.userCount + 1;
-      console.log(this.userCount);
-      this.userForm.reset();
-    });
+    this.appService
+      .addUser(this.userForm.value, this.userCount + 1)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        console.log('message::::', data);
+        this.userCount = this.userCount + 1;
+        console.log(this.userCount);
+        this.userForm.reset();
+      });
   }
 
   getAllUsers() {
-    this.appService.getUsers().pipe(takeUntil(this.destroy$)).subscribe((users: any[]) => {
-		this.userCount = users.length;
+    this.appService
+      .getUsers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((users: any) => {
+        this.userCount = users.length;
         this.users = users;
-    });
+      });
   }
 
   ngOnDestroy() {
@@ -48,6 +53,6 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnInit() {
-	this.getAllUsers();
+    this.getAllUsers();
   }
 }

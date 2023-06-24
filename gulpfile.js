@@ -1,5 +1,6 @@
 const { src, dest, series, parallel } = require('gulp');
-const del = require('del');
+//const { deleteSync } = require('del');
+const del = (path, opt) => import('del').then(obj => obj.deleteSync(path, opt));
 const log = require('fancy-log');
 
 const paths = {
