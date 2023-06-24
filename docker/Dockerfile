@@ -1,6 +1,8 @@
 # Alpine Linux with OpenJDK JRE
 FROM openjdk:8-jre-alpine
 
+mvn clean install
+
 # Copy war file
 COPY users-0.0.1-SNAPSHOT.jar /users.war
 
